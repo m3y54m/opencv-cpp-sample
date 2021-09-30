@@ -22,7 +22,7 @@ build this project in a directory called `build` run these commands:
 ```console
 cmake -S src -B build
 ```
-# Build
+## Build
 
 ```console
 cmake --build build
