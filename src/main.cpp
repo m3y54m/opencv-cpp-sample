@@ -14,7 +14,7 @@ int main()
         std::cout << "Could not read the image: " << image_path << std::endl;
         return 1;
     }
-    imshow("Display window", img);
+    imshow("Display window 2", img);
     int k = waitKey(0); // Wait for a keystroke in the window
     if (k == 's')
     {

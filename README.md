@@ -15,23 +15,28 @@ sudo apt install cmake
 
 The basic project configurations are written in
 [`CMakeLists.txt`](https://github.com/opencv/opencv/blob/master/samples/cpp/example_cmake/CMakeLists.txt)
-file which will be recognized by CMake tool. In order to generate the Makefile and other files used to
+file which will be recognized by CMake tool. All source code of this project is in `src` directory.
+In order to generate the Makefile and other files used to
 build this project in a directory called `build` run these commands:
 
 ```console
-mkdir -p build
-cd build
-cmake ..
+cmake -S src -B build
 ```
 # Build
 
-Then enter this command in the `build` dir to compile and build the project binaries:
+```console
+cmake --build build
+```
+
+Or first go to `build` directory with `cd build` command and execute this:
 
 ```console
 cmake --build .
 ```
 
 ## Run
+
+Supposed that you are in `build` directory:
 
 ```console
 ./opncv4_cpp_sample
