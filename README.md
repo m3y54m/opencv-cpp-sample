@@ -23,3 +23,16 @@ mkdir -p build
 cd build
 cmake ..
 ```
+# Build
+
+Then enter this command in the `build` dir to compile and build the project binaries:
+
+```console
+cmake --build .
+```
+
+## Run
+
+```console
+./opncv4_cpp_sample
+```
