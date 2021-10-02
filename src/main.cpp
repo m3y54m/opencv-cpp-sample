@@ -25,19 +25,21 @@ int main()
         cout << "Could not read the image: " << imagePath << endl;
         return -1;
     }
+    
+    // Show original image
+    imshow("Original", originalImage);
 
-    printImageInfo("[ Image Information ]", originalImage);
+    printImageInfo("[ Original Image Information ]", originalImage);
 
-    // This is done to allocate the memory for the result image
+    // Just to allocate memory for 'resultImage' the same size as 'originalImage'
+    // this memory space is used by 'processImage' function
     resultImage = originalImage.clone();
-   
 
     // The main image processing function
     processImage(originalImage.cols, originalImage.rows, originalImage.depth(), originalImage.channels(), originalImage.step, originalImage.data, resultImage.data);
     //processImageMat(originalImage, resultImage);
 
-    imshow("Original", originalImage);
-    // Save output image
+    // Show result image
     imshow("Result", resultImage);
 
     // Wait for a keystroke in the window
@@ -45,8 +47,8 @@ int main()
 
     if (k == 's')
     {
-        // Save output image
-        imwrite("output.jpg", resultImage);
+        // Save result image
+        imwrite("result.jpg", resultImage);
     }
 
     return 0;
@@ -79,16 +81,19 @@ void processImage(int width, int height, int depth, int channels, size_t step, u
     //      3*sizeof(uchar) or 3.
 
     // Create a 'new' Mat object using Mat data addressed by 'inputImagePointer'
-    Mat input = Mat(height, width, type, inputImagePointer, step);
+    Mat temp = Mat(height, width, type, inputImagePointer, step);
 
-    Mat output = input.clone();
+    // ------------------------------------------------------
+    // Main image processing operations are done here:
 
-    cvtColor(input, output, COLOR_BGR2GRAY);
+    cvtColor(temp, temp, COLOR_BGR2GRAY);
+
+    // ------------------------------------------------------
 
     // To keep the color space of the output image the same as input (BGR)
-    cvtColor(output, output, COLOR_GRAY2BGR);
+    cvtColor(temp, temp, COLOR_GRAY2BGR);
     // Copy data of 'output' Mat to the address of 'outputImagePointer'
-    memcpy(outputImagePointer, output.data, width * height * channels * sizeof(uchar));
+    memcpy(outputImagePointer, temp.data, width * height * channels * sizeof(uchar));
 }
 
 // http://zafar.cc/2018/3/7/passing-cv-mat-as-argument/
