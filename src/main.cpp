@@ -1,22 +1,50 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <unistd.h>
 
 using namespace cv;
+using namespace std;
+
+void processImage(uchar *inputImage, uchar *outputImage);
+
+Mat originalImage;
+Mat resultImage;
 
 int main()
 {
-    std::string image_path = samples::findFile("watch.jpg");
-    Mat img = imread(image_path, IMREAD_COLOR);
-    if (img.empty())
+    // Find the path for 'parrot.jpg' image
+    string imagePath = samples::findFile("parrot.jpg");
+
+    cout << imagePath << endl;
+
+    // Read 'parrot.jpg' as an OpenCV colored image
+    originalImage = imread(imagePath, IMREAD_COLOR);
+
+    // Exception handling
+    if (originalImage.empty())
     {
-        std::cout << "Could not read the image: " << image_path << std::endl;
-        return 1;
+        cout << "Could not read the image: " << imagePath << endl;
+        return 2;
     }
-    imshow("Display window 2", img);
-    int k = waitKey(0); // Wait for a keystroke in the window
+
+    imshow("Original Image", originalImage);
+
+    // The main image processing function
+    processImage(originalImage.data, resultImage.data);
+
+    // Wait for a keystroke in the window
+    int k = waitKey(0);
+
     if (k == 's')
     {
-        imwrite("watch.png", img);
+        // Save output image
+        imwrite("output.jpg", resultImage);
     }
+
     return 0;
+}
+
+void processImage(uchar *inputImage, uchar *outputImage)
+{
+    resultImage = originalImage.clone();
 }

@@ -26,5 +26,5 @@ add_executable(opncv4_cpp_sample main.cpp)
 target_link_libraries(opncv4_cpp_sample PRIVATE ${OpenCV_LIBS})
 
 # Copy input file for image processing to build folder
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/watch.jpg
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/parrot.jpg
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
