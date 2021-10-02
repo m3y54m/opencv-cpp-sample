@@ -46,5 +46,5 @@ int main()
 
 void processImage(uchar *inputImage, uchar *outputImage)
 {
-    resultImage = originalImage.clone();
+    cvtColor(originalImage, resultImage, COLOR_BGR2GRAY);
 }
