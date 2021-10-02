@@ -5,7 +5,7 @@ using namespace cv;
 using namespace std;
 
 void printImageInfo(const string title, const Mat inputImage);
-void processImage(int width, int height, int depth, int channels, size_t step, uchar *inputImagePointer, uchar *outputImagePointer);
+void processImage(int width, int height, int depth, int channels, size_t step, uchar *imagePointer);
 void processImageMat(const Mat inputImage, Mat &outputImage);
 
 Mat originalImage;
@@ -36,7 +36,7 @@ int main()
     resultImage = originalImage.clone();
 
     // The main image processing function
-    processImage(originalImage.cols, originalImage.rows, originalImage.depth(), originalImage.channels(), originalImage.step, originalImage.data, resultImage.data);
+    processImage(originalImage.cols, originalImage.rows, originalImage.depth(), originalImage.channels(), originalImage.step, resultImage.data);
     //processImageMat(originalImage, resultImage);
 
     // Show result image
@@ -56,7 +56,7 @@ int main()
 
 // https://thecodinginterface.com/blog/opencv-Mat-from-array-and-vector/
 
-void processImage(int width, int height, int depth, int channels, size_t step, uchar *inputImagePointer, uchar *outputImagePointer)
+void processImage(int width, int height, int depth, int channels, size_t step, uchar *imagePointer)
 {
     int type = CV_MAKETYPE(depth, channels);
 
@@ -80,20 +80,22 @@ void processImage(int width, int height, int depth, int channels, size_t step, u
     //      For example, if the matrix type is CV_8UC3 , elemSize() returns
     //      3*sizeof(uchar) or 3.
 
-    // Create a 'new' Mat object using Mat data addressed by 'inputImagePointer'
-    Mat temp = Mat(height, width, type, inputImagePointer, step);
+    // Create a 'new' Mat object using Mat data addressed by 'imagePointer'
+    Mat temp = Mat(height, width, type, imagePointer, step);
 
     // ------------------------------------------------------
     // Main image processing operations are done here:
-
+    // ------------------------------------------------------
+    // Convert to grayscale
     cvtColor(temp, temp, COLOR_BGR2GRAY);
 
+    // To keep the color space of the result image the same as input (BGR)
+    cvtColor(temp, temp, COLOR_GRAY2BGR);
     // ------------------------------------------------------
 
-    // To keep the color space of the output image the same as input (BGR)
-    cvtColor(temp, temp, COLOR_GRAY2BGR);
-    // Copy data of 'output' Mat to the address of 'outputImagePointer'
-    memcpy(outputImagePointer, temp.data, width * height * channels * sizeof(uchar));
+
+    // Overwrite data of 'temp' Mat to the address of 'imagePointer'
+    memcpy(imagePointer, temp.data, width * height * channels * sizeof(uchar));
 }
 
 // http://zafar.cc/2018/3/7/passing-cv-mat-as-argument/
