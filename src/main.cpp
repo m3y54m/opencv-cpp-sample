@@ -5,7 +5,7 @@ using namespace cv;
 using namespace std;
 
 void printImageInfo(const string title, const Mat inputImage);
-void processImage(int width, int height, int depth, int channels, size_t step, uchar *imagePointer);
+void processImage(int width, int height, int depth, int channels, int step, uchar *imagePointer);
 void processImageMat(const Mat inputImage, Mat &outputImage);
 
 Mat originalImage;
@@ -56,7 +56,7 @@ int main()
 
 // https://thecodinginterface.com/blog/opencv-Mat-from-array-and-vector/
 
-void processImage(int width, int height, int depth, int channels, size_t step, uchar *imagePointer)
+void processImage(int width, int height, int depth, int channels, int step, uchar *imagePointer)
 {
     int type = CV_MAKETYPE(depth, channels);
 
